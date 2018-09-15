@@ -4,6 +4,10 @@ demo.state2.prototype = {
     preload: function(){},
     create: function(){
         game.stage.backgroundColor = '#24fd24';
+        console.log('You\'re on state two!');
+        
+        //And here's the event listeners for this state!
+        addChangeStateEventListeners();
     },
     update: function(){}
 }

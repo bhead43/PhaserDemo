@@ -20,6 +20,11 @@ demo.state1.prototype = {
         
         //The cleanest way! Way better for working across multiple states
         addChangeStateEventListeners();
+        
+        //Scales the game based on size of window. Probably a good idea to just auto add this in for now. Maybe. Maybe not, though?
+        //  Also! This carries over to all states! You only need this in the first state
+        //      -I'm guessing that you can overwrite the scale mode in subsequent states, though?
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     },
     update: function(){}
 }

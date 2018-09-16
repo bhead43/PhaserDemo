@@ -1,10 +1,20 @@
 //We'll just define demo in the first state (Which should really be state0, but I digress)
 //  We don't define it in any of the other state files. That invalidates the states that come before them, which is no bueno
 var demo = {};
+//Declare a variable for the character
+var jimmy;
+var centerX = 750, centerY = 500;
+var speed = 4;
 demo.state1 = function(){};
 demo.state1.prototype = {
-    preload: function(){},
+    preload: function(){
+        //This is where we load all of our assets in
+        game.load.spritesheet('jimmy', 'assets/characterSpritesheet.png', 230, 406);
+        
+    },
     create: function(){
+        //Adds a physics engine
+        game.physics.startSystem(Phaser.Physics.ARCADE);
         game.stage.backgroundColor = '#DDDDDD';
         console.log('You\'re on state one!');
         
@@ -25,8 +35,35 @@ demo.state1.prototype = {
         //  Also! This carries over to all states! You only need this in the first state
         //      -I'm guessing that you can overwrite the scale mode in subsequent states, though?
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        
+        //Load in our character
+        jimmy = game.add.sprite(centerX, centerY, 'jimmy');
+        jimmy.anchor.setTo(0.5, 0.5);
+        jimmy.scale.setTo(0.5, 0.5);    //Make Jimmy a bit smaller
+        game.physics.enable(jimmy);
+        jimmy.body.collideWorldBounds = true;
+        //Create an animation from our spritesheet
+        jimmy.animations.add('walk', [1, 2, 3, 0]);
     },
-    update: function(){}
+    update: function(){
+        //This is where the game mostly runs. Every frame this function is called (around 60 times a second, typically)
+        //  Handle movement here!
+        if(game.input.keyboard.isDown(Phaser.Keyboard.D)){
+            jimmy.scale.setTo(0.5, 0.5);    //Make sure Jimmy is facing the right
+            jimmy.x += speed;
+            jimmy.animations.play('walk', 7, true);    //Animation key, frame rate, does it loop?
+        }
+        else if (game.input.keyboard.isDown(Phaser.Keyboard.A)){
+            jimmy.scale.setTo(-0.5, 0.5);   //Make sure Jimmy is facing the left
+            jimmy.x -= speed
+            jimmy.animations.play('walk', 7, true);
+        }
+        
+        else{
+            jimmy.animations.stop('walk');
+            jimmy.frame = 0;
+        }                          
+    }
 }
 
 function changeState(i, stateNum){

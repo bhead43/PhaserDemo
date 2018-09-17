@@ -1,13 +1,20 @@
-//var demo = {}; Nooooo it's HERE I don't want you! Maybe
+//var demo = {}; 
 demo.state2 = function(){};
 demo.state2.prototype = {
-    preload: function(){},
-    create: function(){
-        game.stage.backgroundColor = '#24fd24';
-        console.log('You\'re on state two!');
-        
-        //And here's the event listeners for this state!
-        addChangeStateEventListeners();
+    preload: function(){
+        game.load.image('background', 'assets/superCoolBackgroundResized.png');
     },
-    update: function(){}
+    create: function(){
+        console.log('You\'re on state two!');   //Just for debug
+        game.add.sprite(0, 0, 'background');
+        
+        game.add.text(500, 350, 'Congrats! You got 10 points!', { fontSize: '32px', fill: '#000' });
+        game.add.text(600, 450, 'Press \'E\' to restart', { fontSize: '32px', fill: '#000' });
+    },
+    update: function(){
+        //Check for restart condition
+        if(game.input.keyboard.isDown(Phaser.Keyboard.E)){
+            addKeyCallback(Phaser.Keyboard.E, changeState, 1);
+        }
+    }
 }
